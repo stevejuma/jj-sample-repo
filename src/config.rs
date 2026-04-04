@@ -42,4 +42,16 @@ impl AppConfig {
 			limit,
 		}
 	}
+
+	pub fn validate(&self) -> Result<(), String> {
+		if self.environment.trim().is_empty() {
+			return Err("environment name cannot be empty".to_string());
+		}
+
+		if matches!(self.limit, Some(0)) {
+			return Err("--limit must be greater than zero".to_string());
+		}
+
+		Ok(())
+	}
 }
