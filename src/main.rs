@@ -5,6 +5,11 @@ use jj_sample_repo::{
 
 fn main() {
 	let config = AppConfig::load();
+	if let Err(error) = config.validate() {
+		eprintln!("configuration error: {error}");
+		std::process::exit(2);
+	}
+
 	let mut tasks = tasks::sample_tasks();
 	if let Some(limit) = config.limit {
 		tasks.truncate(limit);
