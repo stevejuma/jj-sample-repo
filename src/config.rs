@@ -10,6 +10,7 @@ pub struct AppConfig {
 pub enum Command {
 	List,
 	Owners,
+	DeployPreview,
 }
 
 impl AppConfig {
@@ -22,6 +23,7 @@ impl AppConfig {
 
 		while let Some(arg) = args.next() {
 			match arg.as_str() {
+				"deploy-preview" => command = Command::DeployPreview,
 				"owners" => command = Command::Owners,
 				"list" => command = Command::List,
 				"--env" => {

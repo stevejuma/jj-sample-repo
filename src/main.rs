@@ -1,4 +1,5 @@
 use jj_sample_repo::{
+	cloud, 
 	config::{AppConfig, Command},
 	output, tasks,
 };
@@ -22,5 +23,13 @@ fn main() {
 	match config.command {
 		Command::List => println!("{}", output::render_tasks(&tasks)),
 		Command::Owners => println!("{}", output::render_owners(&tasks)),
+		Command::DeployPreview => {
+			let target = config
+				.deployment_target
+				.clone()
+				.unwrap_or_else(|| "local".to_string());
+			let plan = cloud::deployment_plan(&target);
+			println!("{}", output::render_deployment_preview(&plan, &tasks));
+		}
 	}
 }
