@@ -9,3 +9,30 @@ The repository history is intentionally structured to include:
 - a merged pull request on trunk
 - open pull requests
 - branch content that can conflict during a workspace merge
+
+## Commands
+
+List tasks:
+
+```bash
+cargo run -- list
+```
+
+List owners:
+
+```bash
+cargo run -- owners --limit 2
+```
+
+Override the environment banner:
+
+```bash
+cargo run -- --env staging
+```
+
+## Sample Scenarios
+
+- `feature/bootstrap-cleanup` is intended to represent a merged maintenance PR.
+- `feature/cloud-runner` and `feature/query-filtering` are intended to conflict in shared output code.
+- `feature/cloud-observability` is stacked on top of `feature/cloud-runner`.
+- `feature/export-json` is a parallel branch that adds data export behavior.
