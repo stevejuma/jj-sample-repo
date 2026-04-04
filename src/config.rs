@@ -2,6 +2,7 @@
 pub struct AppConfig {
 	pub environment: String,
 	pub command: Command,
+	pub deployment_target: Option<String>,
 	pub limit: Option<usize>,
 }
 
@@ -15,6 +16,7 @@ impl AppConfig {
 	pub fn load() -> Self {
 		let mut environment = std::env::var("TASK_ENV").unwrap_or_else(|_| "local".to_string());
 		let mut command = Command::List;
+		let mut deployment_target = None;
 		let mut limit = None;
 		let mut args = std::env::args().skip(1);
 
@@ -27,6 +29,7 @@ impl AppConfig {
 						environment = value;
 					}
 				}
+				"--deploy-target" => deployment_target = args.next(),
 				"--limit" => {
 					if let Some(value) = args.next() {
 						limit = value.parse::<usize>().ok();
@@ -39,6 +42,7 @@ impl AppConfig {
 		Self {
 			environment,
 			command,
+			deployment_target,
 			limit,
 		}
 	}

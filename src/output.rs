@@ -1,7 +1,10 @@
 use crate::{config::AppConfig, tasks::Task};
 
 pub fn render_header(config: &AppConfig) -> String {
-	format!("Task Tracker [{}]", config.environment)
+	match config.deployment_target.as_deref() {
+		Some(target) => format!("Task Tracker [{}] -> deploy {target}", config.environment),
+		None => format!("Task Tracker [{}]", config.environment),
+	}
 }
 
 pub fn render_summary(tasks: &[Task]) -> String {
