@@ -29,3 +29,14 @@ pub fn render_tasks(tasks: &[Task]) -> String {
 	}
 	lines.join("\n")
 }
+
+pub fn render_owners(tasks: &[Task]) -> String {
+	let mut owners = tasks.iter().map(|task| task.owner.as_str()).collect::<Vec<_>>();
+	owners.sort();
+	owners.dedup();
+	owners
+		.into_iter()
+		.map(|owner| format!("- {owner}"))
+		.collect::<Vec<_>>()
+		.join("\n")
+}
