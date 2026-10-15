@@ -21,6 +21,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Fail unless PR title starts with (pass)
+        if: ${{ github.event_name == 'pull_request' }}
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          echo "PR title: '$PR_TITLE'"
+          if [[ "$PR_TITLE" != "(pass)"* ]]; then
+            echo "Failing: PR title must start with '(pass)'"
+            exit 1
+          fi
+
       - name: Run mock tests
         run: |
           echo "Running mock tests..."
