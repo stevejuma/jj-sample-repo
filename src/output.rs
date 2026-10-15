@@ -1,7 +1,12 @@
 use crate::{config::AppConfig, tasks::Task};
 
+use crate::cloud::DeploymentPlan;
+
 pub fn render_header(config: &AppConfig) -> String {
-	format!("Task Tracker [{}]", config.environment)
+	match config.deployment_target.as_deref() {
+		Some(target) => format!("Task Tracker [{}] -> deploy {target}", config.environment),
+		None => format!("Task Tracker [{}]", config.environment),
+	}
 }
 
 pub fn render_summary(tasks: &[Task]) -> String {
@@ -39,4 +44,14 @@ pub fn render_owners(tasks: &[Task]) -> String {
 		.map(|owner| format!("- {owner}"))
 		.collect::<Vec<_>>()
 		.join("\n")
+}
+
+pub fn render_deployment_preview(plan: &DeploymentPlan, tasks: &[Task]) -> String {
+	format!(
+		"deploy {} to {} with {} after syncing {} tracked tasks",
+		plan.artifact,
+		plan.region,
+		plan.target,
+		tasks.len()
+	)
 }
