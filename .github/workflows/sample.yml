@@ -1,0 +1,27 @@
+name: Mock Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  mock-lint:
+    name: mock-lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Print lint info
+        run: |
+          echo "Running mock linter..."
+          echo "No real linting configured — this is a mock check."
+
+  mock-test:
+    name: mock-test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run mock tests
+        run: |
+          echo "Running mock tests..."
+          echo "All tests passed (mock)."
